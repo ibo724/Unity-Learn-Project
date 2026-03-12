@@ -63,9 +63,15 @@ public class PlayerController : MonoBehaviour
             jumpsLeft--;
         }
 
-        // Dash (Left Shift)
-        dashCooldownTimer -= Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0f)
+        // Yetenek kilitleri
+        if (GameManager.Instance != null)
+        {
+            maxJumps = GameManager.Instance.doubleJumpUnlocked ? 2 : 1;
+            // Dash kontrolü zaten aşağıda, oraya da ekliyoruz
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0f
+    && (GameManager.Instance == null || GameManager.Instance.dashUnlocked))
             StartCoroutine(Dash());
 
         // Sald�r� (Sol T�k)
