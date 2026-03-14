@@ -595,6 +595,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8711465735450527194, guid: 63bf8a8c2128c574f97095862fd8d74c, type: 3}
+      propertyPath: healthSlider
+      value: 
+      objectReference: {fileID: 1354757558}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -882,6 +886,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1354757558 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7958085807624776876, guid: a65aed8781e85e646a8c75c901ff2e8f, type: 3}
+  m_PrefabInstance: {fileID: 1981181953}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
 --- !u!1 &1428132367
 GameObject:
   m_ObjectHideFlags: 0

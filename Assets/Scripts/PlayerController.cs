@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     [Header("Hareket")]
     public float moveSpeed = 8f;
 
-    [Header("Z�plama")]
+    [Header("Zıplama")]
     public float jumpForce = 18f;
     public int maxJumps = 2;
 
@@ -16,14 +16,14 @@ public class PlayerController : MonoBehaviour
     public float dashDuration = 0.15f;
     public float dashCooldown = 1f;
 
-    [Header("Sald�r�")]
+    [Header("Saldırı")]
     public Transform attackPoint;
     public float attackRange = 1.2f;
     public float attackDamage = 1f;
     public float attackCooldown = 0.35f;
     public LayerMask enemyLayer;
 
-    [Header("Zemin Kontrol�")]
+    [Header("Zemin Kontrolü")]
     public Transform groundCheck;
     public float groundCheckRadius = 0.15f;
     public LayerMask groundLayer;
@@ -45,37 +45,33 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        dashCooldownTimer -= Time.deltaTime;
+        attackTimer -= Time.deltaTime;
+
         if (isDashing) return;
 
         bool isGrounded = Physics2D.OverlapCircle(
             groundCheck.position, groundCheckRadius, groundLayer);
         if (isGrounded) jumpsLeft = maxJumps;
 
+        if (GameManager.Instance != null)
+            maxJumps = GameManager.Instance.doubleJumpUnlocked ? 2 : 1;
+
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
         if (horizontalInput > 0 && !facingRight) Flip();
         else if (horizontalInput < 0 && facingRight) Flip();
 
-        // Z�plama (Space / Z)
         if (Input.GetButtonDown("Jump") && jumpsLeft > 0)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             jumpsLeft--;
         }
 
-        // Yetenek kilitleri
-        if (GameManager.Instance != null)
-        {
-            maxJumps = GameManager.Instance.doubleJumpUnlocked ? 2 : 1;
-            // Dash kontrolü zaten aşağıda, oraya da ekliyoruz
-        }
-
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0f
-    && (GameManager.Instance == null || GameManager.Instance.dashUnlocked))
+            && (GameManager.Instance == null || GameManager.Instance.dashUnlocked))
             StartCoroutine(Dash());
 
-        // Sald�r� (Sol T�k)
-        attackTimer -= Time.deltaTime;
         if (Input.GetMouseButtonDown(0) && attackTimer <= 0f)
             Attack();
     }
@@ -111,6 +107,7 @@ public class PlayerController : MonoBehaviour
             hit.GetComponent<BossHealth>()?.TakeDamage(attackDamage);
         }
     }
+
     void Flip()
     {
         facingRight = !facingRight;
