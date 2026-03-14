@@ -1,12 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 5;
     public float invincibilityDuration = 1f;
-    public Slider healthSlider; // Canvas'ta bir Slider oluşturup buraya bağla
+    public Slider healthSlider;
 
     private int currentHealth;
     private float invTimer;
@@ -24,6 +23,9 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
+        if (transform.position.y < -20f)
+            Die();
+
         if (isInvincible)
         {
             invTimer -= Time.deltaTime;
@@ -46,6 +48,12 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        currentHealth = maxHealth;
+        if (healthSlider != null) healthSlider.value = currentHealth;
+
+        if (GameManager.Instance != null)
+            transform.position = GameManager.Instance.respawnPoint;
+        else
+            transform.position = Vector3.zero;
     }
 }

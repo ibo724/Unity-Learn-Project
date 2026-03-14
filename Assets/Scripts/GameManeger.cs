@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 
     public bool doubleJumpUnlocked = false;
     public bool dashUnlocked = false;
+    public Vector3 respawnPoint;
 
     void Awake()
     {
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            respawnPoint = new Vector3(0, 0, 0);
         }
         else
         {
